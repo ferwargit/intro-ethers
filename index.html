@@ -28,8 +28,9 @@
         <p id="erc20Balance" class="text-center text-xl text-800 mt-6">Balance del Token: 0</p>
 
         <!-- Formulario para enviar ERC20 -->
-        <div id="sendERC20Fields" style="display:none;" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto">
-        <!-- <div id="sendERC20Fields" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto"> -->
+        <div id="sendERC20Fields" style="display:none;"
+            class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto">
+            <!-- <div id="sendERC20Fields" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto"> -->
             <h2 class="text-2xl font-semibold text-white-800 mb-4">Enviar Token ERC20</h2>
             <label for="recipientAddress" class="block text-white-700">Dirección del destinatario:</label>
             <input type="text" id="recipientAddress" placeholder="Dirección Ethereum"
@@ -45,8 +46,9 @@
         </div>
 
         <!-- Formulario para enviar ETH -->
-        <div id="sendETHFields" style="display:none;" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto">
-        <!-- <div id="sendETHFields" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto"> -->
+        <div id="sendETHFields" style="display:none;"
+            class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto">
+            <!-- <div id="sendETHFields" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto"> -->
             <h2 class="text-2xl font-semibold text-white-800 mb-4">Enviar ETH</h2>
             <label for="recipientAddressETH" class="block text-white-700">Dirección del destinatario:</label>
             <input type="text" id="recipientAddressETH" placeholder="Dirección Ethereum"
@@ -57,10 +59,16 @@
                 class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
 
             <button id="btnSendETH"
-                class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition mt-4">Enviar ETH</button>
+                class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition mt-4">Enviar
+                ETH</button>
         </div>
 
     </div>
+
+    <script type="module">
+        import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.min.js";
+        // Your code here...
+    </script>
 </body>
 
 </html>
