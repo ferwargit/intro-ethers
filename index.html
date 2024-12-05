@@ -9,18 +9,41 @@
 
 <body class="bg-gray-900 text-white font-sans">
     <div class="container mx-auto p-6">
+        <!-- Título -->
         <h1 class="text-4xl font-bold text-center text-white-800 mb-6">Intro to Ethers</h1>
+
+        <!-- Botónes para conectar y desconectar la wallet -->
         <div class="px-6">
             <button id="btnConnect"
-                class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition">Conectar wallet</button>
+                class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition">Conectar
+                wallet</button>
             <button id="btnDisconnect"
                 class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 transition ml-4">Desconectar
                 wallet</button>
         </div>
+
         <!-- Mostrar estado de la wallet -->
         <p id="status" class="text-center text-600 mt-4">Estado: Desconectado</p>
         <!-- Mostrar balance del token ERC20 -->
         <p id="erc20Balance" class="text-center text-xl text-800 mt-6">Balance del Token: 0</p>
+
+        <!-- Formulario para enviar ERC20 -->
+        <!-- <div id="sendERC20Fields" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto"> -->
+        <div id="sendERC20Fields" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto">
+            <h2 class="text-2xl font-semibold text-white-800 mb-4">Enviar Token ERC20</h2>
+            <label for="recipientAddress" class="block text-white-700">Dirección del destinatario:</label>
+            <input type="text" id="recipientAddress" placeholder="Dirección Ethereum"
+                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+            <label for="tokenAmount" class="block text-white-700 mt-4">Monto (Token):</label>
+            <input type="number" id="tokenAmount" placeholder="Monto en Token"
+                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+            <button id="btnSendERC20"
+                class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition mt-4">Enviar
+                Token</button>
+        </div>
+
     </div>
 </body>
 
