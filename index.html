@@ -34,13 +34,13 @@
             class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto">
             <!-- <div id="sendETHFields" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto"> -->
             <h2 class="text-2xl font-semibold text-white-800 mb-4">Enviar ETH</h2>
-            <label for="recipientAddressETH" class="block text-white-700">Dirección del destinatario:</label>
-            <input type="text" id="recipientAddressETH" placeholder="Dirección Ethereum"
-                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+            <label for="ethrecipientAddressETH" class="block text-white-700">Dirección del destinatario:</label>
+            <input type="text" id="ethrecipientAddressETH" placeholder="Dirección Ethereum"
+                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900">
 
             <label for="ethAmount" class="block text-white-700 mt-4">Monto (ETH):</label>
             <input type="number" id="ethAmount" placeholder="Monto en ETH"
-                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900">
 
             <button id="btnSendETH"
                 class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition mt-4">Enviar
@@ -54,11 +54,11 @@
             <h2 class="text-2xl font-semibold text-white-800 mb-4">Enviar Token ERC20</h2>
             <label for="recipientAddress" class="block text-white-700">Dirección del destinatario:</label>
             <input type="text" id="recipientAddress" placeholder="Dirección Ethereum"
-                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900">
 
             <label for="tokenAmount" class="block text-white-700 mt-4">Monto (Token):</label>
             <input type="number" id="tokenAmount" placeholder="Monto en Token"
-                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900">
 
             <button id="btnSendERC20"
                 class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition mt-4">Enviar
@@ -74,11 +74,11 @@
 
         async function connectWallet() {
             // Estoy mostrando en la consola "Conectando a la wallet..." cuando se hace click en el botón para verificar la llamada a la función
-            console.log("Conectando a la wallet...");
+            console.log("connectWallet - Conectando a la wallet...");
 
             if (window.ethereum) {
                 // Estoy mostrando en la consola "Metamask detectado" cuando se detecta la wallet
-                console.log("Metamask detectado");
+                console.log("connectWallet - Metamask detectado");
 
                 // Estoy obteniendo la cuenta de la wallet que se está conectando
                 await window.ethereum.request({ method: "eth_requestAccounts" });
@@ -89,11 +89,11 @@
                 // Estoy obteniendo el signer de la wallet
                 signer = await provider.getSigner();
                 // Hacemos un console.log del signer para ver las propiedades
-                console.log("signer:", signer);
+                console.log("connectWallet - signer:", signer);
                 // Estoy obteniendo la dirección de la wallet
                 address = await signer.getAddress();
                 // Hacemos un console.log de la dirección de la wallet
-                console.log("address:", address);
+                console.log("connectWallet - address:", address);
 
 
                 // Estoy obteniendo el balance de la wallet
@@ -101,7 +101,7 @@
                 // Los convertimos a ether para poder leerlo mas facil
                 const formattedBalance = ethers.formatEther(balance);
                 // Hacemos un console.log del balance
-                console.log("formattedBalance:", formattedBalance);
+                console.log("connectWallet - formattedBalance:", formattedBalance);
 
 
                 // Estoy ocultando el botón de conectar y mostrando el botón de desconectar
@@ -133,7 +133,7 @@
         }
 
         async function disconnectWallet() {
-            console.log("Desconectando la wallet...");
+            console.log("disconnectWallet - Desconectando la wallet...");
             
             // Limpiamos el estado de la aplicación
             provider = null;
@@ -155,14 +155,35 @@
             document.getElementById("ethBalance").style.display = "none";
             document.getElementById("erc20Balance").style.display = "none";
             
-            console.log("Cuenta desconectada");
+            console.log("disconnectWallet - Cuenta desconectada");
         }   
+
+        async function sendETH() {
+            // Estoy obteniendo la dirección del destinatario
+            const recipientAddress = document.getElementById("ethrecipientAddressETH").value;
+            // Estoy obteniendo el monto de ETH
+            const amount = document.getElementById("ethAmount").value;
+            // Estoy mostrando la dirección y el monto en la consola cuando se hace click en el botón "Enviar ETH"
+            console.log("sendETH - recipientAddress:", recipientAddress);
+            console.log("sendETH - amount:", amount);
+
+            // // Estoy enviando el ETH
+            // const tx = await signer.sendTransaction({
+            //     to: recipientAddress,
+            //     value: ethers.parseEther(amount)
+            // });
+
+            // // Estoy mostrando en la consola "ETH enviado"
+            // console.log("ETH enviado");
+        }
 
 
         // Estoy buscando el "btnConnect" y le estoy diciendo que cuando se haga click, se ejecute la función "connectWallet"
         document.getElementById("btnConnect").addEventListener("click", connectWallet);
         // Estoy buscando el "btnDisconnect" y le estoy diciendo que cuando se haga click, se ejecute la función "disconnectWallet"
         document.getElementById("btnDisconnect").addEventListener("click", disconnectWallet);
+        // Estoy buscando el "btnSendETH" y le estoy diciendo que cuando se haga click, se ejecute la función "sendETH"
+        document.getElementById("btnSendETH").addEventListener("click", sendETH);
 
     </script>
 </body>
