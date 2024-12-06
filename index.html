@@ -72,6 +72,27 @@
 
         let provider, signer, address;
 
+        async function updateBalance() {
+            try {
+                // Verificamos que tengamos el provider y la dirección
+                if (!provider || !address) {
+                    console.error("updateBalance - No hay provider o address");
+                    return;
+                }
+
+                // Obtenemos el balance de la wallet
+                const balance = await provider.getBalance(address);
+                // Convertimos el balance a ETH
+                const formattedBalance = ethers.formatEther(balance);
+                // Actualizamos el balance en la UI
+                document.getElementById("ethBalance").innerText = `Balance de la Wallet: ${formattedBalance} ETH`;
+                
+                console.log("updateBalance - Balance actualizado:", formattedBalance);
+            } catch (error) {
+                console.error("updateBalance - Error al actualizar el balance:", error);
+            }
+        }
+
         async function connectWallet() {
             // Estoy mostrando en la consola "Conectando a la wallet..." cuando se hace click en el botón para verificar la llamada a la función
             console.log("connectWallet - Conectando a la wallet...");
@@ -120,7 +141,7 @@
                 document.getElementById("erc20Balance").style.display = "block";
 
                 // Actualizamos los balances cuando se conecta la wallet
-                document.getElementById("ethBalance").innerText = `Balance de la Wallet: ${formattedBalance} ETH`;
+                await updateBalance();
                 document.getElementById("erc20Balance").innerText = `Balance del Token: 0`;
 
                 // Estoy mostrando en la consola "Cuenta conectada" cuando se conecta la wallet
@@ -195,6 +216,9 @@
                 // Estoy mostrando la transacción en la consola cuando se hace click en el botón "Enviar ETH"
                 console.log("sendETH - txResponse:", txResponse);
                 alert(`Transacción enviada: ${txResponse.hash}`);
+                
+                // Actualizamos el balance después de la transacción exitosa
+                await updateBalance();
 
             } catch (error) {
                 console.error("sendETH - Error al enviar ETH:", error);
