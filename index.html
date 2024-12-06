@@ -18,7 +18,8 @@
                 class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition">Conectar
                 wallet</button>
             <button id="btnDisconnect"
-                class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 transition ml-4" style="display:none;">Desconectar wallet</button>
+                class="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600 transition ml-4"
+                style="display:none;">Desconectar wallet</button>
         </div>
 
         <!-- Mostrar estado de la wallet -->
@@ -27,7 +28,8 @@
         <!-- Mostrar balance del token ERC20 -->
         <p id="erc20Balance" class="text-center text-xl text-800 mt-6" style="display:none;">Balance del Token: 0</p>
         <!-- Mostrar balance de la wallet -->
-        <p id="ethBalance" class="text-center text-xl text-800 mt-6" style="display:none;">Balance de la Wallet: 0 ETH</p>
+        <p id="ethBalance" class="text-center text-xl text-800 mt-6" style="display:none;">Balance de la Wallet: 0 ETH
+        </p>
 
         <!-- Formulario para enviar ETH -->
         <div id="sendETHFields" style="display:none;"
@@ -72,6 +74,12 @@
 
         let provider, signer, address;
 
+        async function loadABI() {
+            const response = await fetch('https://gist.githubusercontent.com/veox/8800debbf56e24718f9f483e1e40c35c/raw/f853187315486225002ba56e5283c1dba0556e6f/erc20.abi.json');
+            const abi = await response.json();
+            return abi;
+        }
+
         async function updateBalance() {
             try {
                 // Verificamos que tengamos el provider y la dirección
@@ -86,7 +94,7 @@
                 const formattedBalance = ethers.formatEther(balance);
                 // Actualizamos el balance en la UI
                 document.getElementById("ethBalance").innerText = `Balance de la Wallet: ${formattedBalance} ETH`;
-                
+
                 console.log("updateBalance - Balance actualizado:", formattedBalance);
             } catch (error) {
                 console.error("updateBalance - Error al actualizar el balance:", error);
@@ -125,6 +133,12 @@
                 console.log("connectWallet - formattedBalance:", formattedBalance);
 
 
+                // Cargamos el ABI
+                const abi = await loadABI();
+                // Hacemos un console.log del ABI
+                console.log("connectWallet - abi:", abi);
+
+
                 // Estoy ocultando el botón de conectar y mostrando el botón de desconectar
                 document.getElementById("btnConnect").style.display = "none";
                 document.getElementById("btnDisconnect").style.display = "block";
@@ -135,7 +149,7 @@
                 // Esty mostrando los campos de enviar ERC20 y ETH
                 document.getElementById("sendETHFields").style.display = "block";
                 document.getElementById("sendERC20Fields").style.display = "block";
-                
+
                 // Mostrar los balances cuando la wallet está conectada
                 document.getElementById("ethBalance").style.display = "block";
                 document.getElementById("erc20Balance").style.display = "block";
@@ -155,7 +169,7 @@
 
         async function disconnectWallet() {
             console.log("disconnectWallet - Desconectando la wallet...");
-            
+
             // Limpiamos el estado de la aplicación
             provider = null;
             signer = null;
@@ -171,13 +185,13 @@
             // Ocultar los campos de enviar ERC20 y ETH
             document.getElementById("sendETHFields").style.display = "none";
             document.getElementById("sendERC20Fields").style.display = "none";
-            
+
             // Ocultar los balances cuando la wallet está desconectada
             document.getElementById("ethBalance").style.display = "none";
             document.getElementById("erc20Balance").style.display = "none";
-            
+
             console.log("disconnectWallet - Cuenta desconectada");
-        }   
+        }
 
         async function sendETH() {
             // Estoy obteniendo la dirección del destinatario
@@ -216,7 +230,7 @@
                 // Estoy mostrando la transacción en la consola cuando se hace click en el botón "Enviar ETH"
                 console.log("sendETH - txResponse:", txResponse);
                 alert(`Transacción enviada: ${txResponse.hash}`);
-                
+
                 // Actualizamos el balance después de la transacción exitosa
                 await updateBalance();
 
