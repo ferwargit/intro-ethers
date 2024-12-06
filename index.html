@@ -93,6 +93,15 @@
                 // Hacemos un console.log de la dirección de la wallet
                 console.log("address:", address);
 
+
+                // Estoy ocultando el botón de conectar y mostrando el botón de desconectar
+                document.getElementById("btnConnect").style.display = "none";
+                document.getElementById("btnDisconnect").style.display = "block";
+
+                // Estoy mostrando el estado de la wallet
+                document.getElementById("status").textContent = `Estado: Conectado a la cuenta ${address}`;
+
+
                 // Estoy mostrando en la consola "Cuenta conectada" cuando se conecta la wallet
                 console.log("Cuenta conectada");
             }
