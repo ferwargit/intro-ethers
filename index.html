@@ -167,14 +167,19 @@
             console.log("sendETH - recipientAddress:", recipientAddress);
             console.log("sendETH - amount:", amount);
 
-            // // Estoy enviando el ETH
-            // const tx = await signer.sendTransaction({
-            //     to: recipientAddress,
-            //     value: ethers.parseEther(amount)
-            // });
+            // Validamos que la dirección sea una dirección válida
+            if (!ethers.isAddress(recipientAddress)) {
+                console.error("sendETH - La dirección del destinatario no es válida");
+                alert("La dirección del destinatario no es válida");
+                return;
+            }
 
-            // // Estoy mostrando en la consola "ETH enviado"
-            // console.log("ETH enviado");
+            // Validamos que el monto sea un número válido
+            if (isNaN(amount) || amount <= 0) {
+                console.error("sendETH - El monto no es válido");
+                alert("El monto no es válido");
+                return;
+            }
         }
 
 
