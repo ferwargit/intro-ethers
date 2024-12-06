@@ -180,6 +180,26 @@
                 alert("El monto no es válido");
                 return;
             }
+
+            try {
+                // Creamos el objeto de la transacción
+                const tx = {
+                    to: recipientAddress,
+                    value: ethers.parseEther(amount)
+                };
+
+                // Estoy enviando la transacción y aqui se abre la ventana de Metamask para confirmar la transacción
+                const txResponse = await signer.sendTransaction(tx);
+                // Tengo que esperar a que se confirme la transacción en la blockchain para poder mostrar la transacción
+                await txResponse.wait();
+                // Estoy mostrando la transacción en la consola cuando se hace click en el botón "Enviar ETH"
+                console.log("sendETH - txResponse:", txResponse);
+                alert(`Transacción enviada: ${txResponse.hash}`);
+
+            } catch (error) {
+                console.error("sendETH - Error al enviar ETH:", error);
+                alert("Error al enviar ETH");
+            }
         }
 
 
