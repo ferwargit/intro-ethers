@@ -23,8 +23,11 @@
 
         <!-- Mostrar estado de la wallet -->
         <p id="status" class="text-center text-600 mt-4">Estado: Desconectado</p>
+
         <!-- Mostrar balance del token ERC20 -->
-        <p id="erc20Balance" class="text-center text-xl text-800 mt-6">Balance del Token: 0</p>
+        <p id="erc20Balance" class="text-center text-xl text-800 mt-6" style="display:none;">Balance del Token: 0</p>
+        <!-- Mostrar balance de la wallet -->
+        <p id="ethBalance" class="text-center text-xl text-800 mt-6" style="display:none;">Balance de la Wallet: 0 ETH</p>
 
         <!-- Formulario para enviar ERC20 -->
         <div id="sendERC20Fields" style="display:none;"
@@ -103,6 +106,10 @@
                 // Esty mostrando los campos de enviar ERC20 y ETH
                 document.getElementById("sendERC20Fields").style.display = "block";
                 document.getElementById("sendETHFields").style.display = "block";
+                
+                // Mostrar los balances cuando la wallet está conectada
+                document.getElementById("erc20Balance").style.display = "block";
+                document.getElementById("ethBalance").style.display = "block";
 
                 // Estoy mostrando en la consola "Cuenta conectada" cuando se conecta la wallet
                 console.log("Cuenta conectada");
@@ -121,12 +128,20 @@
             signer = null;
             address = null;
 
-            // Actualizamos la UI
+            // Estoy ocultando el botón de desconectar y mostrando el botón de conectar
             document.getElementById("btnDisconnect").style.display = "none";
             document.getElementById("btnConnect").style.display = "block";
+
+            // Actualizamos el estado
             document.getElementById("status").innerText = "Estado: Desconectado";
+
+            // Ocultar los campos de enviar ERC20 y ETH
             document.getElementById("sendERC20Fields").style.display = "none";
             document.getElementById("sendETHFields").style.display = "none";
+            
+            // Ocultar los balances cuando la wallet está desconectada
+            document.getElementById("erc20Balance").style.display = "none";
+            document.getElementById("ethBalance").style.display = "none";
             
             console.log("Cuenta desconectada");
         }   
