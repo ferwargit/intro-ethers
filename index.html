@@ -100,6 +100,9 @@
                 // Estoy mostrando el estado de la wallet
                 document.getElementById("status").innerText = `Estado: Conectado a la cuenta ${address}`;
 
+                // Esty mostrando los campos de enviar ERC20 y ETH
+                document.getElementById("sendERC20Fields").style.display = "block";
+                document.getElementById("sendETHFields").style.display = "block";
 
                 // Estoy mostrando en la consola "Cuenta conectada" cuando se conecta la wallet
                 console.log("Cuenta conectada");
@@ -122,6 +125,8 @@
             document.getElementById("btnDisconnect").style.display = "none";
             document.getElementById("btnConnect").style.display = "block";
             document.getElementById("status").innerText = "Estado: Desconectado";
+            document.getElementById("sendERC20Fields").style.display = "none";
+            document.getElementById("sendETHFields").style.display = "none";
             
             console.log("Cuenta desconectada");
         }   
