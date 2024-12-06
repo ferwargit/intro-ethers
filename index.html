@@ -29,24 +29,6 @@
         <!-- Mostrar balance de la wallet -->
         <p id="ethBalance" class="text-center text-xl text-800 mt-6" style="display:none;">Balance de la Wallet: 0 ETH</p>
 
-        <!-- Formulario para enviar ERC20 -->
-        <div id="sendERC20Fields" style="display:none;"
-            class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto">
-            <!-- <div id="sendERC20Fields" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto"> -->
-            <h2 class="text-2xl font-semibold text-white-800 mb-4">Enviar Token ERC20</h2>
-            <label for="recipientAddress" class="block text-white-700">Dirección del destinatario:</label>
-            <input type="text" id="recipientAddress" placeholder="Dirección Ethereum"
-                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-
-            <label for="tokenAmount" class="block text-white-700 mt-4">Monto (Token):</label>
-            <input type="number" id="tokenAmount" placeholder="Monto en Token"
-                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
-
-            <button id="btnSendERC20"
-                class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition mt-4">Enviar
-                Token</button>
-        </div>
-
         <!-- Formulario para enviar ETH -->
         <div id="sendETHFields" style="display:none;"
             class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto">
@@ -63,6 +45,24 @@
             <button id="btnSendETH"
                 class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition mt-4">Enviar
                 ETH</button>
+        </div>
+
+        <!-- Formulario para enviar ERC20 -->
+        <div id="sendERC20Fields" style="display:none;"
+            class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto">
+            <!-- <div id="sendERC20Fields" class="bg-gray p-6 rounded-lg shadow-md mt-6 border border-white max-w-lg mx-auto"> -->
+            <h2 class="text-2xl font-semibold text-white-800 mb-4">Enviar Token ERC20</h2>
+            <label for="recipientAddress" class="block text-white-700">Dirección del destinatario:</label>
+            <input type="text" id="recipientAddress" placeholder="Dirección Ethereum"
+                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+            <label for="tokenAmount" class="block text-white-700 mt-4">Monto (Token):</label>
+            <input type="number" id="tokenAmount" placeholder="Monto en Token"
+                class="w-full mt-2 p-2 border border-white-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500">
+
+            <button id="btnSendERC20"
+                class="bg-blue-500 text-white px-6 py-2 rounded-md hover:bg-blue-600 transition mt-4">Enviar
+                Token</button>
         </div>
 
     </div>
@@ -96,6 +96,14 @@
                 console.log("address:", address);
 
 
+                // Estoy obteniendo el balance de la wallet
+                const balance = await provider.getBalance(address);
+                // Los convertimos a ether para poder leerlo mas facil
+                const formattedBalance = ethers.formatEther(balance);
+                // Hacemos un console.log del balance
+                console.log("formattedBalance:", formattedBalance);
+
+
                 // Estoy ocultando el botón de conectar y mostrando el botón de desconectar
                 document.getElementById("btnConnect").style.display = "none";
                 document.getElementById("btnDisconnect").style.display = "block";
@@ -104,12 +112,16 @@
                 document.getElementById("status").innerText = `Estado: Conectado a la cuenta ${address}`;
 
                 // Esty mostrando los campos de enviar ERC20 y ETH
-                document.getElementById("sendERC20Fields").style.display = "block";
                 document.getElementById("sendETHFields").style.display = "block";
+                document.getElementById("sendERC20Fields").style.display = "block";
                 
                 // Mostrar los balances cuando la wallet está conectada
-                document.getElementById("erc20Balance").style.display = "block";
                 document.getElementById("ethBalance").style.display = "block";
+                document.getElementById("erc20Balance").style.display = "block";
+
+                // Actualizamos los balances cuando se conecta la wallet
+                document.getElementById("ethBalance").innerText = `Balance de la Wallet: ${formattedBalance} ETH`;
+                document.getElementById("erc20Balance").innerText = `Balance del Token: 0`;
 
                 // Estoy mostrando en la consola "Cuenta conectada" cuando se conecta la wallet
                 console.log("Cuenta conectada");
@@ -136,12 +148,12 @@
             document.getElementById("status").innerText = "Estado: Desconectado";
 
             // Ocultar los campos de enviar ERC20 y ETH
-            document.getElementById("sendERC20Fields").style.display = "none";
             document.getElementById("sendETHFields").style.display = "none";
+            document.getElementById("sendERC20Fields").style.display = "none";
             
             // Ocultar los balances cuando la wallet está desconectada
-            document.getElementById("erc20Balance").style.display = "none";
             document.getElementById("ethBalance").style.display = "none";
+            document.getElementById("erc20Balance").style.display = "none";
             
             console.log("Cuenta desconectada");
         }   
