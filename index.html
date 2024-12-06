@@ -68,7 +68,7 @@
     <script type="module">
         import { ethers } from "https://cdnjs.cloudflare.com/ajax/libs/ethers/6.7.0/ethers.min.js";
 
-        let provider, signer;
+        let provider, signer, address;
 
         async function connectWallet() {
             // Estoy mostrando en la consola "Conectando a la wallet..." cuando se hace click en el botón para verificar la llamada a la función
@@ -88,6 +88,10 @@
                 signer = await provider.getSigner();
                 // Hacemos un console.log del signer para ver las propiedades
                 console.log("signer:", signer);
+                // Estoy obteniendo la dirección de la wallet
+                address = await signer.getAddress();
+                // Hacemos un console.log de la dirección de la wallet
+                console.log("address:", address);
 
                 // Estoy mostrando en la consola "Cuenta conectada" cuando se conecta la wallet
                 console.log("Cuenta conectada");
