@@ -314,6 +314,11 @@
                 console.log("sendToken - decimals:", decimals);
                 console.log("sendToken - amountWithDecimals:", amountWithDecimals);
 
+                // Estoy obteniendo la transacción de aprobación
+                const txApproval = await tokenContract.approve(recipientAddress, amountWithDecimals);
+                // Estoy esperando a que se confirme la transacción
+                await txApproval.wait();
+
                 // Creamos el objeto de la transacción
                 const tx = await tokenContract.transfer(recipientAddress, amountWithDecimals);
                 // Estoy enviando la transacción y aqui se abre la ventana de Metamask para confirmar la transacción
