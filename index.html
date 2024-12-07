@@ -280,12 +280,66 @@
             }
         }
 
+        async function sendToken() {
+            console.log("sendToken - Enviando token...");
+
+            // Estoy obteniendo la dirección del destinatario
+            const recipientAddress = document.getElementById("recipientAddress").value;
+            // Estoy obteniendo el monto del token
+            const amount = document.getElementById("tokenAmount").value;
+            // Estoy mostrando la dirección y el monto en la consola cuando se hace click en el botón "Enviar Token"
+            console.log("sendToken - recipientAddress:", recipientAddress);
+            console.log("sendToken - amount:", amount);
+
+            // Validamos que la dirección sea una dirección válida
+            if (!ethers.isAddress(recipientAddress)) {
+                console.error("sendToken - La dirección del destinatario no es válida");
+                alert("La dirección del destinatario no es válida");
+                return;
+            }
+
+            // Validamos que el monto sea un número válido
+            if (isNaN(amount) || amount <= 0) {
+                console.error("sendToken - El monto no es válido");
+                alert("El monto no es válido");
+                return;
+            }
+
+            try {
+                // Estoy obteniendo los decimales del token
+                const decimals = await tokenContract.decimals();
+                // Estoy obteniendo el monto con decimales
+                const amountWithDecimals = ethers.parseUnits(amount, decimals);
+                // Estoy mostrando los decimales y el monto con decimales en la consola
+                console.log("sendToken - decimals:", decimals);
+                console.log("sendToken - amountWithDecimals:", amountWithDecimals);
+
+                // Creamos el objeto de la transacción
+                const tx = await tokenContract.transfer(recipientAddress, amountWithDecimals);
+                // Estoy enviando la transacción y aqui se abre la ventana de Metamask para confirmar la transacción
+                const txResponse = await tx.wait();
+                // Estoy mostrando la transacción en la consola cuando se hace click en el botón "Enviar Token"
+                console.log("sendToken - txResponse:", txResponse);
+                alert(`Transacción enviada: ${txResponse.hash}`);
+
+                // Actualizamos el balance del token luego de la transacción exitosa
+                await updateTokenBalance();
+
+            } catch (error) {
+                console.error("sendToken - Error al enviar Token:", error);
+                alert("Error al enviar Token");
+            }
+        }
+
+
         // Estoy buscando el "btnConnect" y le estoy diciendo que cuando se haga click, se ejecute la función "connectWallet"
         document.getElementById("btnConnect").addEventListener("click", connectWallet);
         // Estoy buscando el "btnDisconnect" y le estoy diciendo que cuando se haga click, se ejecute la función "disconnectWallet"
         document.getElementById("btnDisconnect").addEventListener("click", disconnectWallet);
         // Estoy buscando el "btnSendETH" y le estoy diciendo que cuando se haga click, se ejecute la función "sendETH"
         document.getElementById("btnSendETH").addEventListener("click", sendETH);
+        // Estoy buscando el "btnSendERC20" y le estoy diciendo que cuando se haga click, se ejecute la función "sendToken"
+        document.getElementById("btnSendERC20").addEventListener("click", sendToken);
 
     </script>
 </body>
